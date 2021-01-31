@@ -60,15 +60,15 @@ class Compound extends NamedTag implements \ArrayAccess{
 	}
 
 	public function offsetExists($offset){
-		return isset($this->{$offset}) and $this->{$offset} instanceof Tag;
+		return isset($this->[$offset]) and $this->[$offset] instanceof Tag;
 	}
 
 	public function offsetGet($offset){
-		if(isset($this->{$offset}) and $this->{$offset} instanceof Tag){
-			if($this->{$offset} instanceof \ArrayAccess){
-				return $this->{$offset};
+		if(isset($this->[$offset]) and $this->[$offset] instanceof Tag){
+			if($this->[$offset] instanceof \ArrayAccess){
+				return $this->[$offset];
 			}else{
-				return $this->{$offset}->getValue();
+				return $this->[$offset]->getValue();
 			}
 		}
 
@@ -77,14 +77,14 @@ class Compound extends NamedTag implements \ArrayAccess{
 
 	public function offsetSet($offset, $value){
 		if($value instanceof Tag){
-			$this->{$offset} = $value;
-		}elseif(isset($this->{$offset}) and $this->{$offset} instanceof Tag){
-			$this->{$offset}->setValue($value);
+			$this->[$offset] = $value;
+		}elseif(isset($this->[$offset]) and $this->[$offset] instanceof Tag){
+			$this->[$offset]->setValue($value);
 		}
 	}
 
 	public function offsetUnset($offset){
-		unset($this->{$offset});
+		unset($this->[$offset]);
 	}
 
 	public function getType(){
@@ -96,7 +96,7 @@ class Compound extends NamedTag implements \ArrayAccess{
 		do{
 			$tag = $nbt->readTag($new);
 			if($tag instanceof NamedTag and $tag->getName() !== ""){
-				$this->{$tag->getName()} = $tag;
+				$this->[$tag->getName()] = $tag;
 			}
 		}while(!($tag instanceof End) and !$nbt->feof());
 	}
